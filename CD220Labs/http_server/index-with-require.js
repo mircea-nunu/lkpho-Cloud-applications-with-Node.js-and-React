@@ -1,11 +1,17 @@
 const http = require('http');
 const today = require('./today');
+const fs = require('fs');
 
 const requestListener = function (req, res) {
     res.writeHead(200);
   let dateVal = today.getDate();
   console.log(dateVal);
-  let localdateVal = dateVal - (dateVal.getTimezoneOffset()/60)
+  //Open a file on the server and return its content:
+  fs.readFile('file1.html', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(data);
+  });
+  res.write(Intl.DateTimeFormat().resolvedOptions().timeZone);
 //   console.log(localdateVal);
   let greeting = "It is still not morning"
   if (dateVal.getHours()>6 && dateVal.getHours()<12) {
